@@ -48,5 +48,5 @@ QuantumDefect <- function(n,l,j){
     #Calculates the quantum defect delta_nlj based on Equation 16.19 from Rydberg Atoms by Gallagher (Pg. 351)
     delta <- delta_0 + delta_2/(n - delta_0)^2 + delta_4/(n - delta_0)^4 + delta_6/(n - delta_0)^6 + delta_8/(n - delta_0)^8
     
-    print(delta)
+    delta
 }
