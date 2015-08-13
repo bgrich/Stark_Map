@@ -9,14 +9,15 @@ library(ggplot2)
 Z <- 1
 
 #Primary quantum number, quantum defect, angular quantum number, and energy
-n <- 32
+n <- 3
 l <- 1
 j <- 3/2
-delta <- QuantumDefect(n,l,j)
-E <- 1/(2*(n-delta)^2)
+delta <- 0
+# delta <- QuantumDefect(n,l,j)
+E <- -1/(2*(n-delta)^2)
 
 #Inner and outer turning points
-r_O <- 3*n^2
+r_O <- 2*n*(n+15)#3*n^2
 r_I <- (n^2 - n*sqrt(n^2 - l*(l+1)))/2
 core.radius <- 235e-12/0.529e-10
 
@@ -48,17 +49,17 @@ WaveFunction <- rbind(WaveFunction, row_0, row_1)
 #Numerov Algorithm
 #Iterates algorithm until the condition of ksi_(i+1) < sqrt(r_I) or ksi_(i+1) < sqrt(core.radius) is met
 repeat{
-  g_iplus1  <- -8*(ksi_iplus1^2*E+Z-(l+1/4)*(l+3/4)/(2*ksi_iplus1^2))
-  g_i       <- -8*(ksi_i^2*E+Z-(l+1/4)*(l+3/4)/(2*ksi_i^2))
+  g_iplus1  <- -8*(ksi_iplus1^2*E +Z-(l+1/4)*(l+3/4)/(2*ksi_iplus1^2))
+  g_i       <- -8*(ksi_i^2*E      +Z-(l+1/4)*(l+3/4)/(2*ksi_i^2))
   g_iminus1 <- -8*(ksi_iminus1^2*E+Z-(l+1/4)*(l+3/4)/(2*ksi_iminus1^2))
   
   Psi_iplus1 <- (Psi_iminus1*(g_iminus1 - 12/h^2)+Psi_i*(10*g_i+24/h^2))/(12/h^2 - g_iplus1)
   
-  N_i <- 2*ksi_iplus1^2*Psi_iplus1^2
+  N_iplus1 <- 2*ksi_iplus1^2*Psi_iplus1^2
   
-  new.row <- data.frame(ksi = ksi_iplus1, Psi = Psi_iplus1, N_i = N_i)
+  new.row <- data.frame(ksi = ksi_iplus1, Psi = Psi_iplus1, N_i = N_iplus1)
   
-  if((ksi_iplus1<sqrt(r_I))|(ksi_iplus1 < sqrt(core.radius))){#&(Psi_iplus1>Psi_i)){
+  if((ksi_iplus1<sqrt(r_I))&(Psi_iplus1>Psi_i)){
     break
   } else {
     WaveFunction <- rbind(WaveFunction, new.row)
@@ -71,10 +72,12 @@ repeat{
   ksi_iplus1 <- ksi_iplus1 - h 
 }
 
+N <- sqrt(sum(WaveFunction$N_i))
+
 #Turns WaveFunction into a dplyr tbl_df and creates columns for actual position r and the radial wave function R(r)
 WaveFunction <- WaveFunction%>%
   tbl_df%>%
-  mutate(r = ksi^2, R = Psi*r^(-3/4)/sqrt(sum(N_i)))
+  mutate(r = ksi^2, R = (Psi/(r^(3/4)))/N)
 
 #Plots the wavefunction R(r)
 p <- WaveFunction%>%
