@@ -9,11 +9,10 @@ library(ggplot2)
 Z <- 1
 
 #Primary quantum number, quantum defect, angular quantum number, and energy
-n <- 3
+n <- 32
 l <- 1
 j <- 3/2
-delta <- 0
-# delta <- QuantumDefect(n,l,j)
+delta <- QuantumDefect(n,l,j)
 E <- -1/(2*(n-delta)^2)
 
 #Inner and outer turning points
