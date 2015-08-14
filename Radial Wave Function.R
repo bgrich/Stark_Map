@@ -9,17 +9,18 @@ library(ggplot2)
 Z <- 1
 
 #Primary quantum number, quantum defect, angular quantum number, and energy
-n <- 32
+n <- 3
 l <- 1
 j <- 3/2
-delta <- QuantumDefect(n,l,j)
+delta <- 0
+# delta <- QuantumDefect(n,l,j)
 E <- -1/(2*(n-delta)^2)
 
 #Inner and outer turning points
 r_O <- 2*n*(n+15)#3*n^2
 r_I <- (n^2 - n*sqrt(n^2 - l*(l+1)))/2
-core.radius <- 235e-12/0.529e-10
-
+# core.radius <- 50e-12/0.529e-10
+core.radius <- 0.05
 #Defining scaled x-axis ksi = sqrt(r), step size h, and starting point ksi_0 = sqrt(r_O) 
 ksi_0 <- sqrt(r_O)
 h <- 0.01
@@ -58,7 +59,7 @@ repeat{
   
   new.row <- data.frame(ksi = ksi_iplus1, Psi = Psi_iplus1, N_i = N_iplus1)
   
-  if((ksi_iplus1<sqrt(r_I))&(Psi_iplus1>Psi_i)){
+  if(((ksi_iplus1<sqrt(r_I))|(ksi_iplus1<sqrt(core.radius)))&(Psi_iplus1>Psi_i)){
     break
   } else {
     WaveFunction <- rbind(WaveFunction, new.row)
@@ -71,7 +72,8 @@ repeat{
   ksi_iplus1 <- ksi_iplus1 - h 
 }
 
-N <- sqrt(sum(WaveFunction$N_i))
+#Note: This definition of the normalization is slightly different from the Zimmerman paper and from Gallagher's Rydberg Atoms. Here we define N^2 = sum(f(x)*dx) where f(x) is out integrand and dx is the step size.
+N <- sqrt(sum(WaveFunction$N_i)*0.01)
 
 #Turns WaveFunction into a dplyr tbl_df and creates columns for actual position r and the radial wave function R(r)
 WaveFunction <- WaveFunction%>%
