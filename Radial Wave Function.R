@@ -19,7 +19,7 @@ E <- -1/(2*(n-delta)^2)
 r_O <- 2*n*(n+15)#3*n^2
 r_I <- (n^2 - n*sqrt(n^2 - l*(l+1)))/2
 #Core radius as a function of core polarizability r = (a_c)^(1/3)
-#Core polarizability is a_c = 9.0760 for Rubidiu
+#Core polarizability is a_c = 9.0760 for Rubidium
 core.radius <- (9.0760)^(1/3)
 #Core radius for Hydrogen is taken to be 0.05
 # core.radius <- 0.05

@@ -7,7 +7,7 @@ k <- 1
 
 #Quantum numbers for states 1 and 2. Primary quantum number n, orbital angular momentum l, total angular momentum j
 n1 <- 32
-n2 <- 33
+n2 <- 23
 l1 <- 1
 l2 <- 0
 j1 <- 3/2
@@ -22,7 +22,10 @@ r1_O <- 2*n1*(n1+15)
 r1_I <- (n1^2 - n1*sqrt(n1^2 - l1*(l1+1)))/2
 r2_O <- 2*n2*(n2+15)
 r2_I <- (n2^2 - n2*sqrt(n2^2 - l2*(l2+1)))/2
-core.radius <- 235e-12/0.529e-10
+
+#Core radius as a function of core polarizability r = (a_c)^(1/3)
+#Core polarizability is a_c = 9.0760 for Rubidium
+core.radius <- (9.0760)^(1/3)
 
 #Determine which outer turning point is the larger to set as starting point
 r_0 <- max(r1_O, r2_O)
@@ -52,14 +55,14 @@ Psi2_iminus1 <- Psi2_0
 Psi2_i <- Psi2_1
 
 #Establishing Numerov integration data frame
-WaveFunction <- data.frame(ksi = numeric(), N1_i = numeric(), N2_i = numeric(), Psi12 = numeric()) 
+Integral <- data.frame(ksi = numeric(), Psi1 = numeric(), Psi2 = numeric(), N1_i = numeric(), N2_i = numeric(), Psi12 = numeric()) 
 
 if(r1_O < r2_O){
-  row_0 <- data.frame(ksi = ksi_0, N1_i = 0, N2_i = 2*ksi_0^2*Psi2_0^2, Psi12 = 0)
-  row_1 <- data.frame(ksi = ksi_1, N1_i = 0, N2_i = 2*ksi_1^2*Psi2_1^2, Psi12 = 0)
+  row_0 <- data.frame(ksi = ksi_0, Psi1 = 0, Psi2 = Psi2_0, N1_i = 0, N2_i = 2*ksi_0^2*Psi2_0^2, Psi12 = 0)
+  row_1 <- data.frame(ksi = ksi_1, Psi1 = 0, Psi2 = Psi2_1, N1_i = 0, N2_i = 2*ksi_1^2*Psi2_1^2, Psi12 = 0)
 } else{
-  row_0 <- data.frame(ksi = ksi_0, N1_i = 2*ksi_0^2*Psi1_0^2, N2_i = 0, Psi12 = 0)
-  row_1 <- data.frame(ksi = ksi_1, N1_i = 2*ksi_1^2*Psi1_1^2, N2_i = 0, Psi12 = 0)
+  row_0 <- data.frame(ksi = ksi_0, Psi1 = Psi1_0, Psi2 = 0, N1_i = 2*ksi_0^2*Psi1_0^2, N2_i = 0, Psi12 = 0)
+  row_1 <- data.frame(ksi = ksi_1, Psi1 = Psi1_1, Psi2 = 0, N1_i = 2*ksi_1^2*Psi1_1^2, N2_i = 0, Psi12 = 0)
 }
 
 WaveFunction <- rbind(WaveFunction, row_0, row_1)
@@ -78,7 +81,16 @@ repeat{
       Psi2_iplus1 <- (Psi2_iminus1*(g2_iminus1 - 12/h^2)+Psi2_i*(10*g2_i+24/h^2))/(12/h^2 - g2_iplus1)
       
       N1_iplus1 <- 0
-      N2_iplus1 <- 2*ksi_iplus1^2*Psi2_iplus1^2
+      N2_iplus1 <- 2*ksi_iplus1^2*Psi2_iplus1^2*h
+      
+      new.row <- data.frame(ksi = ksi_iplus1, N1_i = N1_iplus1, N2_i=N2_iplus1, Psi12 = 0)
+      
+      if(((ksi_iplus1<sqrt(max(r1_I,r2_I)))|(ksi_iplus1<sqrt(core.radius)))){
+        break
+      } else {
+        WaveFunction <- rbind(WaveFunction, new.row)
+      }
+      
     } else{
       g1_iplus1  <- -8*(ksi_iplus1^2*E1 + Z - (l1 + 1/4)*(l1 + 3/4)/(2*ksi_iplus1^2))
       g1_i       <- -8*(ksi_i^2*E1 + Z - (l1 + 1/4)*(l1 + 3/4)/(2*ksi_i^2))
@@ -86,17 +98,18 @@ repeat{
       
       Psi1_iplus1 <- (Psi1_iminus1*(g1_iminus1 - 12/h^2)+Psi1_i*(10*g1_i+24/h^2))/(12/h^2 - g1_iplus1)
       
-      N1_iplus1 <- 2*ksi_iplus1^2*Psi1_iplus1^2
+      N1_iplus1 <- 2*ksi_iplus1^2*Psi1_iplus1^2*h
       N2_iplus1 <- 0
+      
+      new.row <- data.frame(ksi = ksi_iplus1, N1_i = N1_iplus1, N2_i=N2_iplus1, Psi12 = 0)
+      
+      if(((ksi_iplus1<sqrt(max(r1_I,r2_I)))|(ksi_iplus1<sqrt(core.radius)))){
+        break
+      } else {
+        WaveFunction <- rbind(WaveFunction, new.row)
+      }
     }
     
-    new.row <- data.frame(ksi = ksi_iplus1, N1_i = N1_iplus1, N2_i=N2_iplus1, Psi12 = 0)
-    
-    if((ksi_iplus1<sqrt(min(c(r1_I, r2_I))))&(Psi_iplus1>Psi_i)){
-      break
-    } else {
-      WaveFunction <- rbind(WaveFunction, new.row)
-    }
     
     if(r1_O<r2_O){
       Psi2_iminus1 <- Psi2_i
@@ -118,13 +131,13 @@ repeat{
     Psi1_iplus1 <- (Psi1_iminus1*(g1_iminus1 - 12/h^2)+Psi1_i*(10*g1_i+24/h^2))/(12/h^2 - g1_iplus1)
     Psi2_iplus1 <- (Psi2_iminus1*(g2_iminus1 - 12/h^2)+Psi2_i*(10*g2_i+24/h^2))/(12/h^2 - g2_iplus1)
     
-    Psi12_iplus1 <- 2*Psi1_iplus1*Psi2_iplus1*ksi_iplus1^(2+2*k)
-    N1_iplus1 <- 2*ksi_iplus1^2*Psi1_iplus1^2
-    N2_iplus1 <- 2*ksi_iplus1^2*Psi2_iplus1^2
+    Psi12_iplus1 <- 2*Psi1_iplus1*Psi2_iplus1*ksi_iplus1^(2+2*k)*h
+    N1_iplus1 <- 2*ksi_iplus1^2*Psi1_iplus1^2*h
+    N2_iplus1 <- 2*ksi_iplus1^2*Psi2_iplus1^2*h
     
     new.row <- data.frame(ksi = ksi_iplus1, N1_i = N1_iplus1, N2_i=N2_iplus1, Psi12 = Psi12_iplus1)
     
-    if((ksi_iplus1<sqrt(min(c(r1_I, r2_I))))&(Psi_iplus1>Psi_i)){
+    if(((ksi_iplus1<sqrt(max(r1_I,r2_I)))|(ksi_iplus1<sqrt(core.radius)))){
       break
     } else {
       WaveFunction <- rbind(WaveFunction, new.row)
@@ -139,3 +152,6 @@ repeat{
   ksi_i <- ksi_iplus1
   ksi_iplus1 <- ksi_iplus1 - h 
 }
+
+RadialMatrixElement <- sum(WaveFunction$Psi12)/(sqrt(sum(WaveFunction$N1_i))*sqrt(sum(WaveFunction$N2_i)))
+print(RadialMatrixElement)
