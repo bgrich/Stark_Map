@@ -9,18 +9,21 @@ library(ggplot2)
 Z <- 1
 
 #Primary quantum number, quantum defect, angular quantum number, and energy
-n <- 3
+n <- 32
 l <- 1
 j <- 3/2
-delta <- 0
-# delta <- QuantumDefect(n,l,j)
+delta <- QuantumDefect(n,l,j)
 E <- -1/(2*(n-delta)^2)
 
 #Inner and outer turning points
 r_O <- 2*n*(n+15)#3*n^2
 r_I <- (n^2 - n*sqrt(n^2 - l*(l+1)))/2
-# core.radius <- 50e-12/0.529e-10
-core.radius <- 0.05
+#Core radius as a function of core polarizability r = (a_c)^(1/3)
+#Core polarizability is a_c = 9.0760 for Rubidiu
+core.radius <- (9.0760)^(1/3)
+#Core radius for Hydrogen is taken to be 0.05
+# core.radius <- 0.05
+
 #Defining scaled x-axis ksi = sqrt(r), step size h, and starting point ksi_0 = sqrt(r_O) 
 ksi_0 <- sqrt(r_O)
 h <- 0.01
@@ -59,7 +62,7 @@ repeat{
   
   new.row <- data.frame(ksi = ksi_iplus1, Psi = Psi_iplus1, N_i = N_iplus1)
   
-  if(((ksi_iplus1<sqrt(r_I))|(ksi_iplus1<sqrt(core.radius)))&(Psi_iplus1>Psi_i)){
+  if(((ksi_iplus1<sqrt(r_I))|(ksi_iplus1<sqrt(core.radius)))){#&(Psi_iplus1>Psi_i)){
     break
   } else {
     WaveFunction <- rbind(WaveFunction, new.row)
