@@ -79,7 +79,7 @@ RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
         
         new.row <- data.frame(ksi = ksi_iplus1, Psi1 = 0, Psi2 = Psi2_iplus1, N1_i = N1_iplus1, N2_i=N2_iplus1, Psi12 = 0)
         
-        if(((ksi_iplus1<sqrt(max(r1_I,r2_I)))|(ksi_iplus1<sqrt(core.radius)))){
+        if(ksi_iplus1<sqrt(max(r1_I,r2_I))|ksi_iplus1<sqrt(core.radius)){
           break
         } else {
           Integral <- rbind(Integral, new.row)
@@ -97,7 +97,7 @@ RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
         
         new.row <- data.frame(ksi = ksi_iplus1, Psi1 = Psi1_iplus1, Psi2 = 0, N1_i = N1_iplus1, N2_i=N2_iplus1, Psi12 = 0)
         
-        if(((ksi_iplus1<sqrt(max(r1_I,r2_I)))|(ksi_iplus1<sqrt(core.radius)))){
+        if(ksi_iplus1<sqrt(max(r1_I,r2_I))|ksi_iplus1<sqrt(core.radius)){
           break
         } else {
           Integral <- rbind(Integral, new.row)
@@ -131,7 +131,7 @@ RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
       
       new.row <- data.frame(ksi = ksi_iplus1, Psi1 = Psi1_iplus1, Psi2 = Psi2_iplus1, N1_i = N1_iplus1, N2_i=N2_iplus1, Psi12 = Psi12_iplus1)
       
-      if(((ksi_iplus1<sqrt(max(r1_I,r2_I)))|(ksi_iplus1<sqrt(core.radius)))){
+      if(ksi_iplus1<sqrt(max(r1_I,r2_I))|ksi_iplus1<sqrt(core.radius)){
         break
       } else {
         Integral <- rbind(Integral, new.row)
@@ -149,7 +149,7 @@ RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
   
   Integral <- Integral %>%
     tbl_df()%>%
-    mutate(r = ksi^2, R1 = (Psi1/(r^(3/4)))/sqrt(sum(Integral$N1_i)), R2 = (Psi2/r^(3/4))/sqrt(sum(Integral$N2_i)))
+    mutate(r = ksi^2, R1 = Psi1/r^(3/4)/sqrt(sum(Integral$N1_i)), R2 = Psi2/r^(3/4)/sqrt(sum(Integral$N2_i)))
   
   RadialMatrixElement <- sum(Integral$Psi12)/(sqrt(sum(Integral$N1_i))*sqrt(sum(Integral$N2_i)))
   RadialMatrixElement
