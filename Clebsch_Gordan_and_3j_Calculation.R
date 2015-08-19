@@ -33,3 +33,8 @@ Clebsch_Gordan <- function(j1,j2,m1,m2,j,mj){
   
   CG
 }
+
+Wigner3j <- function(j1,j2,j3,m1,m2,m3){
+  output <- (-1)^(j1-j2-m3)*Clebsch_Gordan(j1,j2,m1,m2,j3,-m3)/sqrt(2*j3+1)
+  output
+}
