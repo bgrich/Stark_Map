@@ -253,3 +253,47 @@ states %>%
   theme(axis.title = element_text(size = 20), plot.title = element_text(size = 20), legend.title = element_text(size = 20), axis.text = element_text(size = 20))+
   scale_color_brewer(palette = "Set1")
 dev.off()
+
+
+##########################
+#Additional comparisons between the two programs for a variety of states
+#S states for n = 31 to n = 34
+#Declaration of various n's, l's, and j's
+n1 <- c(rep.int(9,4),rep.int(32,4),rep.int(12, 4), rep.int(32, 4), rep.int(32,4))
+n2 <- c(rep.int(32, 8), rep.int(11, 4), rep.int(35, 4), rep.int(31,4))
+l1 <- rep.int(c(0,2,4,8),5)
+l2 <- rep.int(c(1,3,5,9),5)
+j1 <- rep.int(c(1/2,5/2,9/2,13/2),5)
+j2 <- j1+1
+
+#Creating initial data frame as a dplyr tbl_df
+states <- tbl_df(data.frame(index = c(1:length(n1)), n1 = n1, n2 = n2, l1 = l1, l2 = l2, j1 = j1, j2 = j2))
+
+#Producing the quantum defects and radial matrix elements
+states <- states%>%
+  group_by(n1,n2,l1,l2,j1,j2)%>%
+  mutate(delta1 = QuantumDefect(n1,l1,j1), delta2 = QuantumDefect(n2,l2,j2))
+
+states <- states%>%
+  mutate(R12 = RadialMatrixElement(1,n1,n2,l1,l2,j1,j2))
+
+#The radial matrix elements as produced by Bob's code (hand copied in)
+BobElement.states <- c(-9.170e-2, -0.310, 0.726, 0.192, 963.835, -28.171, 1517.121, 1473.990,75.836, 161.392, 21.052, 7.310, -28.029, -2.903, 83.706, 98.093, 878.423, 1281.340, 256.952, 209.598)
+
+states <- cbind(states, BobElement.states)
+
+states <- states%>%
+  rename(BobElement.States = BobElement.states)
+
+png("Difference Between Programs V2.png", width = 1920, height = 1080)
+states%>%
+  ggplot(aes(x = (n2-delta2),y=((R12 - BobElement.States)/(R12 + BobElement.States)/2), shape = as.factor(l2), color= as.factor(n1)))+
+  geom_point(size = 10)+
+  theme_bw()+
+  xlab("N_2- delta_2")+
+  ylab("Fractional Difference")+
+  labs(shape = "l2", color = "n1")+
+  ggtitle("Difference between Matrix Elements of Bob's Program and My Code")+
+  theme(axis.title = element_text(size = 20), plot.title = element_text(size = 20), legend.title = element_text(size = 20), axis.text = element_text(size = 20), legend.text = element_text(size=20))+
+  scale_color_brewer(palette = "Set1")
+dev.off()
