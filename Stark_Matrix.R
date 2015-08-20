@@ -7,10 +7,10 @@ for(i in 1:length(n)){
   for(j in 1:(n[i]-1)){
     l <- 0
     if(l==0){
-      NumberMatrix <- rbind(NumberMatrix, c(n[i],l[j],1/2))  
+      NumberMatrix <- rbind(NumberMatrix, c(n[i],l,1/2))  
     } else{
-      NumberMatrix <- rbind(NumberMatrix, c(n[i],l[j],l[j]-1/2))
-      NumberMatrix <- rbind(NumberMatrix, c(n[i],l[j],l[j]+1/2))
+      NumberMatrix <- rbind(NumberMatrix, c(n[i],l,l-1/2))
+      NumberMatrix <- rbind(NumberMatrix, c(n[i],l,l+1/2))
     }
     l <- l + 1
   }
