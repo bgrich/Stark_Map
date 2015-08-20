@@ -4,8 +4,8 @@ n <- c(13,14,15,16,17,18)
 NumberMatrix <- numeric()
 
 for(i in 1:length(n)){
+  l <- 0
   for(j in 1:(n[i]-1)){
-    l <- 0
     if(l==0){
       NumberMatrix <- rbind(NumberMatrix, c(n[i],l,1/2))  
     } else{
