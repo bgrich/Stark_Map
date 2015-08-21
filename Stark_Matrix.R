@@ -1,6 +1,6 @@
-# n <- c(13,14,15,16,17,18)
+n <- c(13,14,15,16,17,18)
 # l <- c(0,1,2,3,4,5,6,7)
-n <- c(15,16)
+# n <- c(15,16)
 
 
 NumberMatrix <- numeric()
@@ -33,7 +33,7 @@ for(i in 1:size){
     mat[i,j] <- StarkMatrixElem(n1[i],n2[j],l1[i],l2[j],j1[i],j2[j],1/2,1/2)
   print(paste("i = ", i, ", j = ", j, sep = ''))
   }
-  gc()
+#   gc()
 }
 
-write.csv(mat, "Stark_Matrix_Output.csv", row.names = FALSE)
+write.csv(mat, paste("Stark_Matrix_Output_",min(n),"to",max(n),".csv", sep = ''), row.names = FALSE)
