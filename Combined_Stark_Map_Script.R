@@ -33,7 +33,6 @@ for(i in 1:size){
     mat[i,j] <- StarkMatrixElem(n1[i],n2[j],l1[i],l2[j],j1[i],j2[j],1/2,1/2)
     print(paste("i = ", i, ", j = ", j, sep = ''))
   }
-  #   gc()
 }
 
 write.csv(mat, paste("Stark_Matrix_Output_",min(n),"to",max(n),".csv", sep = ''), row.names = FALSE)
@@ -53,7 +52,6 @@ for(k in 1:length(field)){
   Energy <- rbind(Energy, temp$values)
 }
 
-# plot(c(min(field), max(field)),c(min(Energy),max(Energy))*2.19475e5, col=0)
 png(paste("Stark_Map_for_n_",min(n),"_to_", max(n),",png",sep=''), width = 1920, height = 1080)
 plot(c(min(field), max(field)),c(-540,-440), col=0)
 for(i in 1:ncol(Energy)){
@@ -86,7 +84,7 @@ for(k in 1:length(Energy[1,])){
 }
 EnergyDataFrame <- tbl_df(EnergyDataFrame)
 
-write.csv(EnergyDataFrame, paste("Stark_Map_n_",min(n),"_to_",max(n),".csv", sep = ''), row.names = FALSE)
+write.csv(EnergyDataFrame, paste("Tidy_Stark_Energy_Output_n_",min(n),"_to_",max(n),".csv", sep = ''), row.names = FALSE)
 
 # 
 # EnergyDataFrame%>%

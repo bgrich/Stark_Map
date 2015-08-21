@@ -22,6 +22,7 @@ l2 <- NumberMatrix[,2]
 j1 <- NumberMatrix[,3]
 j2 <- NumberMatrix[,3]
 size <- length(n1)
+
 ZeroFieldEnergy <- matrix(0,nrow = size, ncol = size)
 
 for(i in 1:size){
