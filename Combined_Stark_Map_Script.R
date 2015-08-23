@@ -29,8 +29,9 @@ size <- length(n1)
 mat <- matrix(, nrow = size, ncol = size)
 
 for(i in 1:size){
-  for(j in 1:size){
+  for(j in i:size){
     mat[i,j] <- StarkMatrixElem(n1[i],n2[j],l1[i],l2[j],j1[i],j2[j],1/2,1/2)
+    mat[j,i] <- mat[i,j]
     print(paste("i = ", i, ", j = ", j, sep = ''))
   }
 }
@@ -68,6 +69,12 @@ for(i in 1:size){
   ZeroEnergyDataFrame <- rbind(ZeroEnergyDataFrame, ZeroEnergy.newrow)
 }
 ZeroEnergyDataFrame <- tbl_df(ZeroEnergyDataFrame)
+
+if(which.min(Energy[1,])>1){
+  test.frame2 <- ZeroEnergyDataFrame%>%arrange(desc(E0), desc(l))  
+} else{
+  test.frame2 <- ZeroEnergyDataFrame%>%arrange(E0, l)
+}
 
 test.frame2 <- ZeroEnergyDataFrame%>%arrange(desc(E0), desc(l))
 
