@@ -31,7 +31,7 @@ StarkMatrixElem <- function(n1, n2, l1, l2, j1, j2, mj1, mj2){
       }
       
       #Calculates the stark matrix element.
-      StarkElem <- RadialMatrixElement(1,n1,n2,l1,l2,j1,j2)*(SumPlus + SumMinus)
+      StarkElem <- RadialMatrixElementFaster(1,n1,n2,l1,l2,j1,j2)*(SumPlus + SumMinus)
       
     } else{
       StarkElem <- 0
