@@ -27,13 +27,18 @@ j2 <- NumberMatrix[,3]
 size <- length(n1)
 
 mat <- matrix(, nrow = size, ncol = size)
+newrow <- numeric()
 
 for(i in 1:size){
   for(j in 1:size){
     mat[i,j] <- StarkMatrixElem(n1[i],n2[j],l1[i],l2[j],j1[i],j2[j],1/2,1/2)
-  print(paste("i = ", i, ", j = ", j, sep = ''))
+    # newrow <- c(newrow, a)
+    # print(paste("i = ", i, ", j = ", j, sep = ''))
   }
-  gc()
+  if(i%%10 == 0){
+    print(i)
+    }
+  # write.csv(newrow, "Test_Matrix.csv", row.names = FALSE, append = TRUE)
 }
 
-write.csv(mat, "Stark_Matrix_Output.csv", row.names = FALSE)
+# write.csv(mat, "Stark_Matrix_Output.csv", row.names = FALSE)
