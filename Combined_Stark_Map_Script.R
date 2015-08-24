@@ -10,7 +10,7 @@ NumberMatrix <- numeric()
 for(i in 1:length(n)){
   l0 <- mj - 1/2
   l <- l0
-  for(j in l0:(n[i]-1)){
+  for(j in l0+1:(n[i])){
     if(l == l0){
       NumberMatrix <- rbind(NumberMatrix, c(n[i],l,mj))
     } else{
