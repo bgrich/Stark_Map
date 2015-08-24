@@ -60,6 +60,7 @@ Energy <- numeric()
 for(k in 1:length(field)){
   Energy.newRow <- eigen(ZeroFieldEnergy+StarkMatrix*field.au[k])
   Energy <- rbind(Energy, Energy.newRow$values)
+  print(field[k])
 }
 
 #Outputs the Stark energy data frame to file.
