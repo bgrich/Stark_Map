@@ -43,7 +43,7 @@ for(i in 1:size){
 }
 
 #Saves the Stark matrix to file
-write.csv(StarkMatrix, paste("QDAdj_Output_Files/Stark_Matrix_Output_",min(n),"_to_",max(n),"_mj_" ,mj,".csv", sep = ''), row.names = FALSE)
+write.csv(StarkMatrix, paste("Output_Files/QDAdjStark_Matrix_Output_",min(n),"_to_",max(n),"_mj_" ,mj,".csv", sep = ''), row.names = FALSE)
 
 #Initializes and fills a matrix for the energy at zero electric field.
 ZeroFieldEnergy <- matrix(0,nrow = size, ncol = size)
@@ -65,7 +65,7 @@ for(k in 1:length(field)){
 }
 
 #Outputs the Stark energy data frame to file.
-write.csv(Energy, paste("QDAdj_Output_Files/Stark_Energy_Output_",min(n),"_to_",max(n),"_mj_" ,mj,".csv", sep = ''), row.names = FALSE)
+write.csv(Energy, paste("Output_Files/QDAdj_Stark_Energy_Output_",min(n),"_to_",max(n),"_mj_" ,mj,".csv", sep = ''), row.names = FALSE)
 
 ##Data tidying
 #Creates a data frame with the zero field energy and the related n,l,j,mj and a string representing the entire state.
@@ -101,4 +101,4 @@ for(k in 1:length(Energy[1,])){
 EnergyDataFrame <- tbl_df(EnergyDataFrame)
 
 #Writes tidy data frame to file.
-write.csv(EnergyDataFrame, paste("QDAdj_Output_Files/Tidy_Stark_Energy_Output_n_",min(n),"_to_",max(n),"_mj_",mj,".csv", sep = ''), row.names = FALSE)
+write.csv(EnergyDataFrame, paste("Output_Files/QDAdj_Tidy_Stark_Energy_Output_n_",min(n),"_to_",max(n),"_mj_",mj,".csv", sep = ''), row.names = FALSE)
