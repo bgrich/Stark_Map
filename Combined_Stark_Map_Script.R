@@ -91,14 +91,9 @@ EnergyDataFrame <- data.frame(Field = numeric(), E = numeric(), E0 = numeric(), 
 
 #Creates a tidy data frame of the Energy eigen states at all fields
 for(k in 1:length(Energy[1,])){
-  print(k)
-  for(i in 1:length(field)){
-    EnergyDataFrame.newrow <- data.frame(Field = field[i],E = Energy[i,k],E0 = ZeroFieldDataFrame$E0[k], n = ZeroFieldDataFrame$n[k], l = ZeroFieldDataFrame$l[k], j = ZeroFieldDataFrame$j[k], mj = ZeroFieldDataFrame$mj[k], state = ZeroFieldDataFrame$state[k])
-    
-    EnergyDataFrame <- rbind(EnergyDataFrame, EnergyDataFrame.newrow)
-  }
+  EnergyDataFrame.newPiece <- tbl_df(data.frame(Field = field, E = Energy[,k],E0 = ZeroFieldDataFrame$E0[k], n = ZeroFieldDataFrame$n[k], l = ZeroFieldDataFrame$l[k], j = ZeroFieldDataFrame$j[k], mj = ZeroFieldDataFrame$mj[k], state = ZeroFieldDataFrame$state[k]))
+  EnergyDataFrame <- rbind(EnergyDataFrame, EnergyDataFrame.newPiece)
 }
-EnergyDataFrame <- tbl_df(EnergyDataFrame)
 
 #Writes tidy data frame to file.
 write.csv(EnergyDataFrame, paste("Output_Files/QDAdj_Tidy_Stark_Energy_Output_n_",min(n),"_to_",max(n),"_mj_",mj,".csv", sep = ''), row.names = FALSE)
