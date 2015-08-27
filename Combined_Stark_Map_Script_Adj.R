@@ -29,10 +29,10 @@ for(i in 1:length(nadd)){
   l <- l0
   for(j in (l0):(5)){
     if(l == l0){
-      NumberMatrix <- rbind(NumberMatrix, c(n[i],l,mj))
+      NumberMatrix <- rbind(NumberMatrix, c(nadd[i],l,mj))
     } else{
-      NumberMatrix <- rbind(NumberMatrix, c(n[i],l,l-1/2))
-      NumberMatrix <- rbind(NumberMatrix, c(n[i],l,l+1/2))
+      NumberMatrix <- rbind(NumberMatrix, c(nadd[i],l,l-1/2))
+      NumberMatrix <- rbind(NumberMatrix, c(nadd[i],l,l+1/2))
     }
   }
 }
@@ -50,7 +50,7 @@ StarkMatrix <- matrix(, nrow = size, ncol = size)
 #Fills the Stark matrix. Treats the Stark matrix as symmetric and computes only the elements for the upper right triangle of the matrix. Copies those into the symmetric terms on the lower left triangle of the matrix.
 for(i in 1:size){
   for(j in i:size){
-    StarkMatrix[i,j] <- StarkMatrixElemAdjusted(n1[i],n2[j],l1[i],l2[j],j1[i],j2[j],1/2,1/2)
+    StarkMatrix[i,j] <- StarkMatrixElemAdjusted(n1[i],n2[j],l1[i],l2[j],j1[i],j2[j],mj,mj)
     StarkMatrix[j,i] <- StarkMatrix[i,j]
     print(paste("i = ", i, ", j = ", j, sep = ''))
   }
