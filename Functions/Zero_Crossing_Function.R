@@ -14,16 +14,21 @@ ZeroCross <- function(x, y){
     }
     #If the sign changes from i to i+1, then the value is kept.
     if(sign(y[i])!=sign(y[i+1])){
-      ZeroPos <- c(ZeroPos, i)
-      ZeroX <- c(ZeroX, x[i])
+      if(abs(y[i]) > abs(y[i+1])){
+        ZeroPos <- c(ZeroPos, i+1)
+        ZeroX <- c(ZeroX, x[i+1])
+      } else {
+        ZeroPos <- c(ZeroPos, i)
+        ZeroX <- c(ZeroX, x[i])
+      }
     }
   }
   #If there are no zero crossings a message is printed. Otherwise, a matrix is sent out with the index and x position of each zero crossing.
   if(length(ZeroPos) == 0){
     print("This vector contains no zero crossings.")
   } else { 
-  OutputMatrix <- cbind(ZeroPos, ZeroX)
-  colnames(OutputMatrix) <- c("Index", "X.position")
-  OutputMatrix
+    OutputMatrix <- cbind(ZeroPos, ZeroX)
+    colnames(OutputMatrix) <- c("Index", "X.position")
+    OutputMatrix
   }
 }
