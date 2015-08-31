@@ -1,7 +1,7 @@
 
 #Sets the n and mj levels for the Stark Matrix
-# n <- c(13,14,15,16,17,18,19,20)
-n <- c(27,28,29,30,31,32,33,34)
+n <- c(13,14,15,16,17,18,19,20)
+# n <- c(27,28,29,30,31,32,33,34)
 mj <- 1/2
 
 #Initializes and fills a matrix with all of the n, l, and j states for the Stark matrix
@@ -63,7 +63,7 @@ write.csv(StarkMatrix, paste("Output_Files/QDAdjStark_Matrix_Output_",min(n),"_t
 ZeroFieldEnergy <- matrix(0,nrow = size, ncol = size)
 
 for(i in 1:size){
-  ZeroFieldEnergy[i,i] <- -1/(n1[i]- QuantumDefect(n1[i],l1[i],j1[i]))^2/2
+  ZeroFieldEnergy[i,i] <- -1/(n1[i]- QuantumDefectAdjusted(n1[i],l1[i],j1[i]))^2/2
 }
 
 #Determines the number of electric field points and the step size.
@@ -87,7 +87,7 @@ write.csv(Energy, paste("Output_Files/QDAdj_Stark_Energy_Output_",min(n),"_to_",
 ZeroEnergyDataFrame <- data.frame(E0 = numeric(), n = numeric(), l = numeric(), j = numeric(), mj = numeric(), state = character())
 
 for(i in 1:size){
-  ZeroEnergy.newrow <- data.frame(E0 = -1/(n1[i]- QuantumDefect(n1[i],l1[i],j1[i]))^2/2, n = n1[i], l = l1[i], j = j1[i],mj = mj, state = paste(n1[i],l1[i], j1[i],mj, sep = ','))
+  ZeroEnergy.newrow <- data.frame(E0 = -1/(n1[i]- QuantumDefectAdjusted(n1[i],l1[i],j1[i]))^2/2, n = n1[i], l = l1[i], j = j1[i],mj = mj, state = paste(n1[i],l1[i], j1[i],mj, sep = ','))
   
   ZeroEnergyDataFrame <- rbind(ZeroEnergyDataFrame, ZeroEnergy.newrow)
 }
