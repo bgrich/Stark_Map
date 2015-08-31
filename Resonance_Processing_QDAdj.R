@@ -71,7 +71,7 @@ for(k in 1:length(mj)){
   ZeroEnergyDataFrame <- data.frame(E0 = numeric(), n = numeric(), l = numeric(), j = numeric(), mj = numeric(), state = character())
   
   for(i in 1:size){
-    ZeroEnergy.newrow <- data.frame(E0 = -1/(n1[i]- QuantumDefectAdjusted(n1[i],l1[i],j1[i]))^2/2, n = n1[i], l = l1[i], j = j1[i],mj = mj, state = paste(n1[i],l1[i], j1[i],mj[k], sep = ','))
+    ZeroEnergy.newrow <- data.frame(E0 = -1/(n1[i]- QuantumDefectAdjusted(n1[i],l1[i],j1[i]))^2/2, n = n1[i], l = l1[i], j = j1[i],mj = mj[k], state = paste(n1[i],l1[i], j1[i],mj[k], sep = ','))
     
     ZeroEnergyDataFrame <- rbind(ZeroEnergyDataFrame, ZeroEnergy.newrow)
   }
