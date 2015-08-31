@@ -1,7 +1,7 @@
-StarkMatrix1 <- tbl_df(read.csv("Output_Files/QDAdj_Stark_Matrix_Output_27_to_34_mj_0.5.csv"))
-StarkMatrix2 <- tbl_df(read.csv("Output_Files/QDAdj_Stark_Matrix_Output_27_to_34_mj_1.5.csv"))
-StarkMatrix3 <- tbl_df(read.csv("Output_Files/QDAdj_Stark_Matrix_Output_27_to_34_mj_2.5.csv"))
-StarkMatrix4 <- tbl_df(read.csv("Output_Files/QDAdj_Stark_Matrix_Output_27_to_34_mj_3.5.csv"))
+StarkMatrix1 <- tbl_df(read.csv("Output_Files/QDAdjStark_Matrix_Output_27_to_34_mj_0.5.csv"))
+StarkMatrix2 <- tbl_df(read.csv("Output_Files/QDAdjStark_Matrix_Output_27_to_34_mj_1.5.csv"))
+StarkMatrix3 <- tbl_df(read.csv("Output_Files/QDAdjStark_Matrix_Output_27_to_34_mj_2.5.csv"))
+StarkMatrix4 <- tbl_df(read.csv("Output_Files/QDAdjStark_Matrix_Output_27_to_34_mj_3.5.csv"))
 TotalTidyEnergy <- tbl_df(data.frame(Field = numeric(), E = numeric(), E0 = numeric(), n = numeric(), l = numeric(), j = numeric(), mj = numeric(), state = character()))
 
 
