@@ -26,9 +26,12 @@ dev.off()
 highlight2 <- EnergyDataFrame2 %>%
   filter(state %in% c("32,1,1.5,1.5" , "33,0,0.5,0.5" , "32,0,0.5,0.5"))
 
+highlight3 <- EnergyDataFrame2 %>%
+  filter(state %in% c("31,1,1.5,1.5", "33,1,1.5,1.5"))
+
 DDResPlot <- EnergyDataFrame2 %>%
   group_by(state)%>%
-  filter(Ecm > -133, Ecm < -122.5) %>%
+  filter(Ecm > -140, Ecm < -110) %>%
   ggplot(aes(x = Field, y = Ecm, group = state))+
   geom_line()+
   geom_line(data = highlight2, color = "red", size = 2)+

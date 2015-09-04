@@ -1,6 +1,6 @@
-EnergyDataFrame1 <- tbl_df(read.csv("Output_Files/Tidy_Stark_Energy_n_27_to_34_mj_0.5_to_3.5.csv"))
+EnergyDataFrame2 <- tbl_df(read.csv("Output_Files/QDAdj_Tidy_Stark_Energy_n_27_to_34_mj_0.5_to_3.5.csv"))
 
-EnergyDataFrame1 <- EnergyDataFrame1 %>%
+EnergyDataFrame2 <- EnergyDataFrame2 %>%
   tbl_df() %>%
   mutate(Ecm = E*2.19475e5)
 
