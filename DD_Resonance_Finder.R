@@ -62,7 +62,7 @@ DDRestest3 <- function(Frame, AFrame, StateB, StateC){
 }
 
 AFrame <- EnergyDataFrame2%>%
-  filter(state %in% StateA)%>%
+  filter(state %in% "32,1,1.5,1.5")%>%
   select(Field, Ecm)
 
 #Creates a vector with all of the states being investigated
