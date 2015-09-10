@@ -21,10 +21,13 @@ DDRes <- function(Frame, StateA, StateB, StateC){
   
 }
 
+AFrame <- EnergyDataFrame2%>%
+  filter(state %in% StateA)%>%
+  select(Field, Ecm)
 
 DDRestest <- function(Frame, StateA, StateB, StateC){
   A <- Frame %>%
-    filter(state %in% StateA) %>%
+    filter(state == StateA) %>%
     select(Field, Ecm)
   B <- Frame %>%
     filter(state == StateB) %>%
@@ -33,10 +36,34 @@ DDRestest <- function(Frame, StateA, StateB, StateC){
     filter(state == StateC) %>%
     select(Field, Ecm)
   
-#   ZeroCross(A$Field, (2*A$Ecm - (B$Ecm + C$Ecm)))
+  ZeroCross(A$Field, (2*A$Ecm - (B$Ecm + C$Ecm)))
   
 }
 
+DDRestest2 <- function(Frame, StateA, StateB, StateC){
+    A <- Frame %>%
+      filter(state %in% StateA) %>%
+      select(Field, Ecm)
+  B <- Frame %>%
+    filter(state %in% StateB) %>%
+    select(Field, Ecm)
+  C <- Frame %>%
+    filter(state %in% StateC) %>%
+    select(Field, Ecm)
+  
+    ZeroCross(A$Field, (2*A$Ecm - (B$Ecm + C$Ecm)))
+  
+}
+
+DDRestest3 <- function(Frame, AFrame, StateB, StateC){
+
+    ZeroCross(AFrame$Field, (2*AFrame$Ecm - ((Frame%>%filter(state %in% StateB)%>%select(Field, Ecm))$Ecm + (Frame%>%filter(state%in%StateC)%>%select(Field,Ecm))$Ecm)))
+  
+}
+
+AFrame <- EnergyDataFrame2%>%
+  filter(state %in% StateA)%>%
+  select(Field, Ecm)
 
 #Creates a vector with all of the states being investigated
 States <- numeric()
@@ -59,12 +86,12 @@ ZeroCrossingDF <- tbl_df(data.frame(index = numeric(), Voltage = numeric(), stat
 
 #Determines the zero crossing and saves it to a data frame
 for(i in 1:length(States)){
-  for(j in 1:length(States)){
+  for(j in i:length(States)){
     A <- "32,1,1.5,1.5"
     B <- States[i+j-1]
     C <- States[i]
     
-    res <- DDRes(EnergyDataFrame2, A, B, C)
+    res <- DDRestest3(EnergyDataFrame2, A, B, C)
     if(is.character(res)){
     } else {
       if(res[2]>10&res[2]<13){
