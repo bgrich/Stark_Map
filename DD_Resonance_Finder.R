@@ -88,7 +88,7 @@ ZeroCrossingDF <- tbl_df(data.frame(index = numeric(), Voltage = numeric(), stat
 for(i in 1:length(States)){
   for(j in i:length(States)){
 #     A <- "32,1,1.5,1.5"
-    B <- States[i+j-1]
+    B <- States[j]
     C <- States[i]
     
     res <- DDRestest3(EnergyDataFrame2, AFrame, B, C)
