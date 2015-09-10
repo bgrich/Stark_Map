@@ -87,11 +87,11 @@ ZeroCrossingDF <- tbl_df(data.frame(index = numeric(), Voltage = numeric(), stat
 #Determines the zero crossing and saves it to a data frame
 for(i in 1:length(States)){
   for(j in i:length(States)){
-    A <- "32,1,1.5,1.5"
+#     A <- "32,1,1.5,1.5"
     B <- States[i+j-1]
     C <- States[i]
     
-    res <- DDRestest3(EnergyDataFrame2, A, B, C)
+    res <- DDRestest3(EnergyDataFrame2, AFrame, B, C)
     if(is.character(res)){
     } else {
       if(res[2]>10&res[2]<13){
