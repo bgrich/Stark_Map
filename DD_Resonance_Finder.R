@@ -67,8 +67,25 @@ AFrame <- EnergyDataFrame2%>%
 
 #Creates a vector with all of the states being investigated
 States <- numeric()
+
+#Low angular momentum states
 for(n in 27:34){
-  for(l in 0:(n-1)){
+  for(l in 0:4){
+    for(j in c(l-1/2,l+1/2)){
+      for(mj in c(1/2,3/2,5/2,7/2)){
+        if(mj > j){
+          next()
+        }
+        CurState <- paste(n,l,j,mj, sep = ",")
+        States <- c(States, CurState)
+      }
+    }
+  }
+}
+
+#Full n manifolds
+for(n in 29:30){
+  for(l in 5:(n-1)){
     for(j in c(l-1/2,l+1/2)){
       for(mj in c(1/2,3/2,5/2,7/2)){
         if(mj > j){
@@ -104,4 +121,4 @@ for(i in 1:length(States)){
   #   print(i)
 }
 
-write.csv(ZeroCrossingDF, "Output_Files/Zero_Crossing.csv", row.names = FALSE)
+write.csv(ZeroCrossingDF, "Output_Files/Zero_CrossingV2.csv", row.names = FALSE)
