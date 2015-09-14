@@ -104,3 +104,4 @@ for(i in 1:length(States)){
   #   print(i)
 }
 
+write.csv(ZeroCrossingDF, "Output_Files/Zero_Crossing.csv", row.names = FALSE)
