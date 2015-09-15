@@ -99,7 +99,7 @@ for(n in 29:30){
 }
 
 #Creates a blank data frame to save the zero crossing information to
-ZeroCrossingDF <- tbl_df(data.frame(index = numeric(), Voltage = numeric(), state = character()))
+ZeroCrossingDF <- tbl_df(data.frame(index = numeric(), Field = numeric(), state = character()))
 
 #Determines the zero crossing and saves it to a data frame
 for(i in 1:length(States)){
@@ -112,7 +112,7 @@ for(i in 1:length(States)){
     if(is.character(res)){
     } else {
       if(res[2]>10&res[2]<13){
-        new.Row <- data.frame(index = res[1], Voltage = res[2], state = paste(B,C, sep = ","))
+        new.Row <- data.frame(index = res[1], Field = res[2], state = paste(B,C, sep = ","))
         ZeroCrossingDF <- rbind(ZeroCrossingDF, new.Row)
       }
     }
