@@ -6,38 +6,56 @@
 QuantumDefect <- function(n,l,j){
   
   #Chooses the quantum defect parameters based on the l and j quantum numbers
-  #The quantum defect parameters come from Table 16.2 of Rydberg Atoms by Thomas Gallagher, Pg 353
+  #The quantum defect parameters come from updated values from a variety of papers
   if(l == 0){
-    delta_0 <- 3.13109
-    delta_2 <- 0.204
-    delta_4 <- -1.8
+    delta_0 <- 3.1311804
+    delta_2 <- 0.1784
+    delta_4 <- 0
     delta_6 <- 0
     delta_8 <- 0
   } else if(l == 1 & j == 1/2){
-    delta_0 <- 2.65456
-    delta_2 <- 0.388
-    delta_4 <- -7.904
-    delta_6 <- 116.437
-    delta_8 <- -405.907
-  } else if (l == 1 & j == 3/2){
-    delta_0 <- 2.64145
-    delta_2 <- 0.33
-    delta_4 <- -0.97495
-    delta_6 <- 14.6001
-    delta_8 <- -44.7265
-  } else if(l == 2){
-    delta_0 <- 1.347157
-    delta_2 <- -0.59553
-    delta_4 <- -1.50517
-    delta_6 <- -2.4206
-    delta_8 <- 19.736
-  } else if(l == 3){
-    delta_0 <- 0.016312
-    delta_2 <- -0.064007
-    delta_4 <- -0.36005
-    delta_6 <- 3.2390
+    delta_0 <- 2.6548849
+    delta_2 <- 0.2900
+    delta_4 <- 0
+    delta_6 <- 0
     delta_8 <- 0
-  } else{
+  } else if (l == 1 & j == 3/2){
+    delta_0 <- 2.6416737
+    delta_2 <- 0.2950
+    delta_4 <- 0
+    delta_6 <- 0
+    delta_8 <- 0
+  } else if(l == 2 & j == 3/2){
+    delta_0 <- 1.348091
+    delta_2 <- -0.60286
+    delta_4 <- 0
+    delta_6 <- 0
+    delta_8 <- 0
+  } else if(l == 2 & j == 5/2){
+    delta_0 <- 1.34646572
+    delta_2 <- -0.59600
+    delta_4 <- 0
+    delta_6 <- 0
+    delta_8 <- 0
+  } else if(l == 3 & j == 5/2){
+    delta_0 <- 0.0165192
+    delta_2 <- -0.085
+    delta_4 <- 0
+    delta_6 <- 0
+    delta_8 <- 0
+  } else if(l == 3 & j == 7/2){
+    delta_0 <- 0.0165437
+    delta_2 <- -0.086
+    delta_4 <- 0
+    delta_6 <- 0
+    delta_8 <- 0
+  } else if(l == 4){
+    delta_0 <- 0.00400
+    delta_2 <- 0
+    delta_4 <- 0
+    delta_6 <- 0
+    delta_8 <- 0
+  }else{
     delta_0 <- 0
     delta_2 <- 0
     delta_4 <- 0
