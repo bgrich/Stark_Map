@@ -16,7 +16,7 @@ DDRes <- function(Frame, StateA, StateB, StateC){
   C <- Frame %>%
     filter(state == StateC) %>%
     select(Field, Ecm)
-
+  
   ZeroCross(A$Field, (2*A$Ecm - (B$Ecm + C$Ecm)))
   
 }
@@ -41,9 +41,9 @@ DDRestest <- function(Frame, StateA, StateB, StateC){
 }
 
 DDRestest2 <- function(Frame, StateA, StateB, StateC){
-    A <- Frame %>%
-      filter(state %in% StateA) %>%
-      select(Field, Ecm)
+  A <- Frame %>%
+    filter(state %in% StateA) %>%
+    select(Field, Ecm)
   B <- Frame %>%
     filter(state %in% StateB) %>%
     select(Field, Ecm)
@@ -51,13 +51,13 @@ DDRestest2 <- function(Frame, StateA, StateB, StateC){
     filter(state %in% StateC) %>%
     select(Field, Ecm)
   
-    ZeroCross(A$Field, (2*A$Ecm - (B$Ecm + C$Ecm)))
+  ZeroCross(A$Field, (2*A$Ecm - (B$Ecm + C$Ecm)))
   
 }
 
 DDRestest3 <- function(Frame, AFrame, StateB, StateC){
-
-    ZeroCross(AFrame$Field, (2*AFrame$Ecm - ((Frame%>%filter(state %in% StateB)%>%select(Field, Ecm))$Ecm + (Frame%>%filter(state%in%StateC)%>%select(Field,Ecm))$Ecm)))
+  
+  ZeroCross(AFrame$Field, (2*AFrame$Ecm - ((Frame%>%filter(state %in% StateB)%>%select(Field, Ecm))$Ecm + (Frame%>%filter(state%in%StateC)%>%select(Field,Ecm))$Ecm)))
   
 }
 
@@ -99,12 +99,12 @@ for(n in 29:30){
 }
 
 #Creates a blank data frame to save the zero crossing information to
-ZeroCrossingDF <- tbl_df(data.frame(index = numeric(), Voltage = numeric(), state = character()))
+ZeroCrossingDF <- tbl_df(data.frame(index = numeric(), Field = numeric(), state = character()))
 
 #Determines the zero crossing and saves it to a data frame
 for(i in 1:length(States)){
   for(j in i:length(States)){
-#     A <- "32,1,1.5,1.5"
+    # A <- "32,1,1.5,1.5"
     B <- States[j]
     C <- States[i]
     
@@ -112,15 +112,15 @@ for(i in 1:length(States)){
     if(is.character(res)){
     } else {
       for(k in 1:length(res[,2])){
-      if(res[k,2]>10&res[2]<13){
-        new.Row <- data.frame(index = res[1], Voltage = res[2], state = paste(B,C, sep = ","))
-        ZeroCrossingDF <- rbind(ZeroCrossingDF, new.Row)
-      }
+        if(res[k,2]>10&res[2]<13){
+          new.Row <- data.frame(index = res[1], Voltage = res[2], state = paste(B,C, sep = ","))
+          
+          ZeroCrossingDF <- rbind(ZeroCrossingDF, new.Row)
+        }
       }
     }
     print(paste(i,j,sep=","))
   }
-  #   print(i)
 }
 
 write.csv(ZeroCrossingDF, "Output_Files/Zero_Crossing_mj_0.5.csv", row.names = FALSE)

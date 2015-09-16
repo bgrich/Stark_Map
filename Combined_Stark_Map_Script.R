@@ -34,6 +34,7 @@ for(i in 1:length(nadd)){
       NumberMatrix <- rbind(NumberMatrix, c(nadd[i],l,l-1/2))
       NumberMatrix <- rbind(NumberMatrix, c(nadd[i],l,l+1/2))
     }
+    l <- l + 1
   }
 }
 #Breaks the matrix of all possible states into several vectors for each n1, n2, l1, l2, j1, and j2. Also determines the size of the matrix.

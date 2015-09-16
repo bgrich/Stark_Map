@@ -1,4 +1,4 @@
-##Script for determining the radial matrix element for two arbitrary states in Rubidium-85
+##Script for determining the radial matrix element for two arbitrary states in Rubidium-85. 2x faster version. This version also includes the adjusted Quantum Defect.
 
 RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
   #Constants and Settings
@@ -49,17 +49,28 @@ RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
   Psi2_i <- Psi2_1
   
   #Establishing Numerov integration data frame
-  Integral <- data.frame(ksi = numeric(), Psi1 = numeric(), Psi2 = numeric(), N1_i = numeric(), N2_i = numeric(), Psi12 = numeric()) 
+  ksi <- numeric()
+  Psi1 <- numeric()
+  Psi2 <- numeric()
+  N1_i <- numeric()
+  N2_i <- numeric()
+  Psi12 <- numeric()
   
   if(r1_O < r2_O){
-    row_0 <- data.frame(ksi = ksi_0, Psi1 = 0, Psi2 = Psi2_0, N1_i = 0, N2_i = 2*ksi_0^2*Psi2_0^2, Psi12 = 0)
-    row_1 <- data.frame(ksi = ksi_1, Psi1 = 0, Psi2 = Psi2_1, N1_i = 0, N2_i = 2*ksi_1^2*Psi2_1^2, Psi12 = 0)
+    ksi <- c(ksi, ksi_0, ksi_1)
+    Psi1 <- c(Psi1, 0, 0)
+    Psi2 <- c(Psi2, Psi2_0, Psi2_1)
+    N1_i <- c(N1_i, 0, 0)
+    N2_i <- c(N2_i,2*ksi_0^2*Psi2_0^2,2*ksi_1^2*Psi2_1^2 )
+    Psi12 <- c(Psi12, 0, 0)
   } else{
-    row_0 <- data.frame(ksi = ksi_0, Psi1 = Psi1_0, Psi2 = 0, N1_i = 2*ksi_0^2*Psi1_0^2, N2_i = 0, Psi12 = 0)
-    row_1 <- data.frame(ksi = ksi_1, Psi1 = Psi1_1, Psi2 = 0, N1_i = 2*ksi_1^2*Psi1_1^2, N2_i = 0, Psi12 = 0)
+    ksi <- c(ksi, ksi_0, ksi_1)
+    Psi1 <- c(Psi1, Psi1_0, Psi1_1)
+    Psi2 <- c(Psi2, 0, 0)
+    N1_i <- c(N1_i, 2*ksi_0^2*Psi1_0^2, 2*ksi_1^2*Psi1_1^2)
+    N2_i <- c(N2_i, 0, 0)
+    Psi12 <- c(Psi12, 0, 0)
   }
-  
-  Integral <- rbind(Integral, row_0, row_1)
   
   #Numerov Algorithm
   #Iterates algorithm until the condition of ksi_(i+1) < sqrt(r_I) or ksi_(i+1) < sqrt(core.radius) is met
@@ -77,12 +88,15 @@ RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
         N1_iplus1 <- 0
         N2_iplus1 <- 2*ksi_iplus1^2*Psi2_iplus1^2*h
         
-        new.row <- data.frame(ksi = ksi_iplus1, Psi1 = 0, Psi2 = Psi2_iplus1, N1_i = N1_iplus1, N2_i=N2_iplus1, Psi12 = 0)
-        
         if(ksi_iplus1<sqrt(max(r1_I,r2_I))|ksi_iplus1<sqrt(core.radius)){
           break
         } else {
-          Integral <- rbind(Integral, new.row)
+          ksi <- c(ksi, ksi_iplus1)
+          Psi1 <- c(Psi1, 0)
+          Psi2 <- c(Psi2, Psi2_iplus1)
+          N1_i <- c(N1_i, N1_iplus1)
+          N2_i <- c(N2_i, N2_iplus1)
+          Psi12 <- c(Psi12, 0)
         }
         
       } else{
@@ -95,12 +109,16 @@ RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
         N1_iplus1 <- 2*ksi_iplus1^2*Psi1_iplus1^2*h
         N2_iplus1 <- 0
         
-        new.row <- data.frame(ksi = ksi_iplus1, Psi1 = Psi1_iplus1, Psi2 = 0, N1_i = N1_iplus1, N2_i=N2_iplus1, Psi12 = 0)
-        
         if(ksi_iplus1<sqrt(max(r1_I,r2_I))|ksi_iplus1<sqrt(core.radius)){
           break
         } else {
-          Integral <- rbind(Integral, new.row)
+          ksi <- c(ksi, ksi_iplus1)
+          Psi1 <- c(Psi1, Psi1_iplus1)
+          Psi2 <- c(Psi2, 0)
+          N1_i <- c(N1_i, N1_iplus1)
+          N2_i <- c(N2_i, N2_iplus1)
+          Psi12 <- c(Psi12, 0)
+          
         }
       }
       
@@ -134,7 +152,12 @@ RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
       if(ksi_iplus1<sqrt(max(r1_I,r2_I))|ksi_iplus1<sqrt(core.radius)){
         break
       } else {
-        Integral <- rbind(Integral, new.row)
+        ksi <- c(ksi, ksi_iplus1)
+        Psi1 <- c(Psi1, Psi1_iplus1)
+        Psi2 <- c(Psi2, Psi2_iplus1)
+        N1_i <- c(N1_i, N1_iplus1)
+        N2_i <- c(N2_i, N2_iplus1)
+        Psi12 <- c(Psi12, Psi12_iplus1)
       }
       Psi1_iminus1 <- Psi1_i
       Psi1_i <- Psi1_iplus1
@@ -147,10 +170,6 @@ RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
     ksi_iplus1 <- ksi_iplus1 - h 
   }
   
-  Integral <- Integral %>%
-    tbl_df()%>%
-    mutate(r = ksi^2, R1 = Psi1/r^(3/4)/sqrt(sum(Integral$N1_i)), R2 = Psi2/r^(3/4)/sqrt(sum(Integral$N2_i)))
-  
-  RadialMatrixElement <- sum(Integral$Psi12)/(sqrt(sum(Integral$N1_i))*sqrt(sum(Integral$N2_i)))
+  RadialMatrixElement <- sum(Psi12)/(sqrt(sum(N1_i))*sqrt(sum(N2_i)))
   RadialMatrixElement
 }
