@@ -375,7 +375,7 @@ RadialMatrixElement <- function(k,n1,n2,l1,l2,j1,j2){
 
 #Calculates the matrix element for the Stark effect contribution to the energy of each state. Accepts an arbitrary n1, n2, l1, l2, j1, j2, mj1, mj2. Uses the adjusted Quantum Defect calculation.
 
-StarkMatrixElemAdjusted <- function(n1, n2, l1, l2, j1, j2, mj1, mj2){
+StarkMatrixElem <- function(n1, n2, l1, l2, j1, j2, mj1, mj2){
   
   #Determines if the two mj terms are the same, if they are not then the matrix element is set to zero
   if(mj1 != mj2){
