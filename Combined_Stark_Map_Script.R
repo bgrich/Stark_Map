@@ -1,7 +1,7 @@
 
 #Sets the n and mj levels for the Stark Matrix
-n <- c(13,14,15,16,17,18,19,20)
-# n <- c(27,28,29,30,31,32,33,34)
+# n <- c(13,14,15,16,17,18,19,20)
+n <- c(27,28,29,30,31,32,33,34)
 mj <- 1/2
 
 #Initializes and fills a matrix with all of the n, l, and j states for the Stark matrix
