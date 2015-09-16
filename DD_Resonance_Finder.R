@@ -111,9 +111,11 @@ for(i in 1:length(States)){
     res <- DDRestest3(EnergyDataFrame2, AFrame, B, C)
     if(is.character(res)){
     } else {
-      if(res[2]>10&res[2]<13){
+      for(k in 1:length(res[,2])){
+      if(res[k,2]>10&res[2]<13){
         new.Row <- data.frame(index = res[1], Voltage = res[2], state = paste(B,C, sep = ","))
         ZeroCrossingDF <- rbind(ZeroCrossingDF, new.Row)
+      }
       }
     }
     print(paste(i,j,sep=","))
@@ -121,4 +123,4 @@ for(i in 1:length(States)){
   #   print(i)
 }
 
-write.csv(ZeroCrossingDF, "Output_Files/Zero_CrossingV2.csv", row.names = FALSE)
+write.csv(ZeroCrossingDF, "Output_Files/Zero_Crossing_mj_0.5.csv", row.names = FALSE)
