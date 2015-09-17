@@ -1,14 +1,10 @@
-EnergyDataFrame2 <- tbl_df(read.csv("Output_Files/QDAdj_Tidy_Stark_Energy_n_27_to_34_mj_0.5_to_3.5.csv"))
+EnergyDataFrame <- tbl_df(read.csv("Output_Files/Tidy_Stark_Energy_n_27_to_34_mj_0.5_to_3.5.csv"))
 
-EnergyDataFrame2 <- EnergyDataFrame2 %>%
+EnergyDataFrame <- EnergyDataFrame %>%
   tbl_df() %>%
   mutate(Ecm = E*2.19475e5)
 
 #Function for accepting an arbitrary state input and a given data frame and outputing the Zero crossings for the case 2*A - (B + C)
-
-AFrame <- EnergyDataFrame2%>%
-  filter(state %in% StateA)%>%
-  select(Field, Ecm)
 
 DDRes <- function(Frame, AFrame, StateB, StateC){
   
@@ -16,7 +12,7 @@ DDRes <- function(Frame, AFrame, StateB, StateC){
   
 }
 
-AFrame <- EnergyDataFrame2%>%
+AFrame <- EnergyDataFrame%>%
   filter(state %in% "32,1,1.5,1.5")%>%
   select(Field, Ecm)
 
@@ -63,7 +59,7 @@ for(i in 1:length(States)){
     B <- States[j]
     C <- States[i]
     
-    res <- DDRes(EnergyDataFrame2, AFrame, B, C)
+    res <- DDRes(EnergyDataFrame, AFrame, B, C)
     if(is.character(res)){
     } else {
       for(k in 1:length(res[,2])){
@@ -78,4 +74,4 @@ for(i in 1:length(States)){
   }
 }
 
-write.csv(ZeroCrossingDF, "Output_Files/Zero_Crossing_mj_0.5.csv", row.names = FALSE)
+write.csv(ZeroCrossingDF, "Output_Files/Zero_Crossing_mj_1.5.csv", row.names = FALSE)
