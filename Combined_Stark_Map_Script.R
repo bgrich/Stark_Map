@@ -1,42 +1,10 @@
-
 #Sets the n and mj levels for the Stark Matrix
-# n <- c(13,14,15,16,17,18,19,20)
-n <- c(27,28,29,30,31,32,33,34)
-mj <- 1/2
 
-#Initializes and fills a matrix with all of the n, l, and j states for the Stark matrix
-NumberMatrix <- numeric()
-#The lowest l level is determined by l = mj - 1/2. For that l level, there is only a single j state j = mj. For all higher l's, there are two j states, j = l +/- 1/2.
-for(i in 1:length(n)){
-  l0 <- mj - 1/2
-  l <- l0
-  for(j in (l0):(n[i]-1)){
-    if(l == l0){
-      NumberMatrix <- rbind(NumberMatrix, c(n[i],l,mj))
-    } else{
-      NumberMatrix <- rbind(NumberMatrix, c(n[i],l,l-1/2))
-      NumberMatrix <- rbind(NumberMatrix, c(n[i],l,l+1/2))
-    }
-#     print(j)
-    l <- l + 1
-  }
-}
+mj = 1/2
 
-#Adds in the lower l states for some additional nearby n's.
-nadd <- c((min(n)-7):(min(n)-1),(max(n)+1):(max(n)+7))
-for(i in 1:length(nadd)){
-  l0 <- mj-1/2
-  l <- l0
-  for(j in (l0):(5)){
-    if(l == l0){
-      NumberMatrix <- rbind(NumberMatrix, c(nadd[i],l,mj))
-    } else{
-      NumberMatrix <- rbind(NumberMatrix, c(nadd[i],l,l-1/2))
-      NumberMatrix <- rbind(NumberMatrix, c(nadd[i],l,l+1/2))
-    }
-    l <- l + 1
-  }
-}
+NumberMatrix <- NumMat(nmin = 27, nmax = 34, mj)
+
+
 #Breaks the matrix of all possible states into several vectors for each n1, n2, l1, l2, j1, and j2. Also determines the size of the matrix.
 n1 <- NumberMatrix[,1]
 n2 <- NumberMatrix[,1]
