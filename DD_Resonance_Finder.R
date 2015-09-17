@@ -6,56 +6,11 @@ EnergyDataFrame2 <- EnergyDataFrame2 %>%
 
 #Function for accepting an arbitrary state input and a given data frame and outputing the Zero crossings for the case 2*A - (B + C)
 
-DDRes <- function(Frame, StateA, StateB, StateC){
-  A <- Frame %>%
-    filter(state %in% StateA) %>%
-    select(Field, Ecm)
-  B <- Frame %>%
-    filter(state == StateB) %>%
-    select(Field, Ecm)
-  C <- Frame %>%
-    filter(state == StateC) %>%
-    select(Field, Ecm)
-  
-  ZeroCross(A$Field, (2*A$Ecm - (B$Ecm + C$Ecm)))
-  
-}
-
 AFrame <- EnergyDataFrame2%>%
   filter(state %in% StateA)%>%
   select(Field, Ecm)
 
-DDRestest <- function(Frame, StateA, StateB, StateC){
-  A <- Frame %>%
-    filter(state == StateA) %>%
-    select(Field, Ecm)
-  B <- Frame %>%
-    filter(state == StateB) %>%
-    select(Field, Ecm)
-  C <- Frame %>%
-    filter(state == StateC) %>%
-    select(Field, Ecm)
-  
-  ZeroCross(A$Field, (2*A$Ecm - (B$Ecm + C$Ecm)))
-  
-}
-
-DDRestest2 <- function(Frame, StateA, StateB, StateC){
-  A <- Frame %>%
-    filter(state %in% StateA) %>%
-    select(Field, Ecm)
-  B <- Frame %>%
-    filter(state %in% StateB) %>%
-    select(Field, Ecm)
-  C <- Frame %>%
-    filter(state %in% StateC) %>%
-    select(Field, Ecm)
-  
-  ZeroCross(A$Field, (2*A$Ecm - (B$Ecm + C$Ecm)))
-  
-}
-
-DDRestest3 <- function(Frame, AFrame, StateB, StateC){
+DDRes <- function(Frame, AFrame, StateB, StateC){
   
   ZeroCross(AFrame$Field, (2*AFrame$Ecm - ((Frame%>%filter(state %in% StateB)%>%select(Field, Ecm))$Ecm + (Frame%>%filter(state%in%StateC)%>%select(Field,Ecm))$Ecm)))
   
@@ -108,7 +63,7 @@ for(i in 1:length(States)){
     B <- States[j]
     C <- States[i]
     
-    res <- DDRestest3(EnergyDataFrame2, AFrame, B, C)
+    res <- DDRes(EnergyDataFrame2, AFrame, B, C)
     if(is.character(res)){
     } else {
       for(k in 1:length(res[,2])){
