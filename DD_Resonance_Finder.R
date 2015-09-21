@@ -63,8 +63,8 @@ for(i in 1:length(States)){
     if(is.character(res)){
     } else {
       for(k in 1:length(res[,2])){
-        if(res[k,2]>10&res[2]<13){
-          new.Row <- data.frame(index = res[1], Voltage = res[2], state = paste(B,C, sep = ","))
+        if(res[k,2]>10&res[k,2]<13){
+          new.Row <- data.frame(index = res[k,1], Voltage = res[k,2], state = paste(B,C, sep = ","))
           
           ZeroCrossingDF <- rbind(ZeroCrossingDF, new.Row)
         }
