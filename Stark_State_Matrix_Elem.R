@@ -1,20 +1,9 @@
-# Import all Stark matricies needed and build list
-
-SM1 <- as.matrix(read.csv("Output_Files/Stark_Matrix_Output_27_to_34_mj_0.5.csv"))
-SM2 <- as.matrix(read.csv("Output_Files/Stark_Matrix_Output_27_to_34_mj_1.5.csv"))
-SM3 <- as.matrix(read.csv("Output_Files/Stark_Matrix_Output_27_to_34_mj_2.5.csv"))
-SM4 <- as.matrix(read.csv("Output_Files/Stark_Matrix_Output_27_to_34_mj_3.5.csv"))
-
-# StarkMatList <- list("0.5" = SM1, "1.5" = SM2, "2.5" = SM3, "3.5" = SM4)
-# mj <- c(1/2, 3/2, 5/2, 7/2)
+# # Import all Stark matricies needed and build list
 # 
-# NumMatList <- list("0.5" = NumMat(27, 34, 1/2), "1.5" = NumMat(27, 34, 3/2),
-#                    "2.5" = NumMat(27, 34, 5/2), "3.5" = NumMat(27, 34, 7/2))
-
-# States
-StateA <- "32,1,1.5,1.5"
-StateB <- "32,0,0.5,0.5"
-StateC <- "33,0,0.5,0.5"
+# SM1 <- as.matrix(read.csv("Output_Files/Stark_Matrix_Output_27_to_34_mj_0.5.csv"))
+# SM2 <- as.matrix(read.csv("Output_Files/Stark_Matrix_Output_27_to_34_mj_1.5.csv"))
+# SM3 <- as.matrix(read.csv("Output_Files/Stark_Matrix_Output_27_to_34_mj_2.5.csv"))
+# SM4 <- as.matrix(read.csv("Output_Files/Stark_Matrix_Output_27_to_34_mj_3.5.csv"))
 
 StarkRadialMatrixElement <- function(stark_mat, initial_state, stark_state, field, n_min, n_max){
 
@@ -29,11 +18,11 @@ StarkRadialMatrixElement <- function(stark_mat, initial_state, stark_state, fiel
   
   zero_field_frame <- data.frame(E0 = numeric(), n = numeric(), l = numeric(), j = numeric(), mj = numeric(), state = character())
   
-  for(j in 1:size){
+  for(i in 1:size){
     
-    zero_field_energy[j,j] <- -1 / (number_matrix[j, 1]- QuantumDefect(number_matrix[j, 1],  number_matrix[j, 2], number_matrix[j, 3])) ^ 2 / 2
+    zero_field_energy[i, i] <- -1 / (number_matrix[i, 1]- QuantumDefect(number_matrix[i, 1],  number_matrix[i, 2], number_matrix[i, 3])) ^ 2 / 2
     
-    new_Row <- data.frame(E0 = -1 / (number_matrix[j, 1]- QuantumDefect(number_matrix[j, 1],  number_matrix[j, 2], number_matrix[j, 3])) ^ 2 / 2, n = number_matrix[j, 1], l = number_matrix[j, 2], number_matrix[j, 3], mj = final_state_num[4], state = paste(n1[i],l1[i], j1[i],mj, sep = ','))
+    new_Row <- data.frame(E0 = -1 / (number_matrix[i, 1]- QuantumDefect(number_matrix[i, 1],  number_matrix[i, 2], number_matrix[i, 3])) ^ 2 / 2, n = number_matrix[i, 1], l = number_matrix[i, 2], j = number_matrix[i, 3], mj = final_state_num[4], state = paste(number_matrix[i, 1], number_matrix[i, 2], number_matrix[i, 3], final_state_num[4], sep = ','))
     
     zero_field_frame <- rbind(zero_field_frame, new_Row)
   }
@@ -49,7 +38,7 @@ StarkRadialMatrixElement <- function(stark_mat, initial_state, stark_state, fiel
   field_vectors <- eigen(zero_field_energy + stark_mat*field_au)$vectors
   
   # Orders the zero field data frame to match the energy order from eigen  
-  if(which.min(energy_order[1,])>1){
+  if(which.min(energy_order)>1){
     ordered_data_frame <- ordered_data_frame%>%
       arrange(desc(E0), desc(l))  
   } else{
@@ -81,10 +70,10 @@ StarkRadialMatrixElement <- function(stark_mat, initial_state, stark_state, fiel
   
   matrix_elem <- numeric()
   for(i in 1:length(state_index$index)){
-    rad_mat_elem <- abs(RadialMatrixElement(1, initial_state_num[1], unordered_data_frame$n1[state_index$index[i]], intial_state_num[2], unordered_data_frame$l1[state_index$index[i]], initial_state_num[3], final_state_num[3]))
+    rad_mat_elem <- RadialMatrixElement(1, initial_state_num[1], unordered_data_frame$n1[state_index$index[i]], initial_state_num[2], unordered_data_frame$l1[state_index$index[i]], initial_state_num[3], final_state_num[3])
     
     matrix_elem <- c(matrix_elem, rad_mat_elem * stark_vector[state_index$index[i]])
   }
-  sum(MatrixElemB)
+  sum(matrix_elem)
   
 }
