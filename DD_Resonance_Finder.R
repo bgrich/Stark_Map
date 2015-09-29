@@ -35,7 +35,7 @@ for(n in 27:34){
 }
 
 #Full n manifolds
-for(n in 29:30){
+for(n in c(28,31)){
   for(l in 5:(n-1)){
     for(j in c(l-1/2,l+1/2)){
       for(mj in c(1/2,3/2,5/2,7/2)){
@@ -74,4 +74,4 @@ for(i in 1:length(States)){
   }
 }
 
-write.csv(ZeroCrossingDF, "Output_Files/Zero_Crossing_mj_1.5.csv", row.names = FALSE)
+write.csv(ZeroCrossingDF, "Output_Files/Zero_Crossing_mj_1.5_extra_manifold.csv", row.names = FALSE)
