@@ -1,4 +1,4 @@
-ZeroCrossDF <- tbl_df(read.csv("Output_Files/Zero_Crossing_mj_1.5.csv"))
+ZeroCrossDF <- tbl_df(read.csv("Output_Files/Zero_Crossing_mj_1.5_extra_manifold.csv"))
 
 SM1 <- as.matrix(read.csv("Output_Files/Stark_Matrix_Output_27_to_34_mj_0.5.csv"))
 SM2 <- as.matrix(read.csv("Output_Files/Stark_Matrix_Output_27_to_34_mj_1.5.csv"))
@@ -13,6 +13,9 @@ test <- ZeroCrossDF %>%
   mutate(charstate = strsplit(as.character(state), split = ","))%>%
   mutate(n1 = as.numeric(unlist(charstate))[1], l1 = as.numeric(unlist(charstate))[2], j1 = as.numeric(unlist(charstate))[3], mj1 = as.numeric(unlist(charstate))[4], n2 = as.numeric(unlist(charstate))[5], l2 = as.numeric(unlist(charstate))[6], j2 = as.numeric(unlist(charstate))[7], mj2 = as.numeric(unlist(charstate))[8])%>%
   mutate(state1 = paste(n1, l1, j1, mj1, sep = ","), state2 = paste(n2, l2, j2, mj2, sep = ','))
+
+test <- test  %>% 
+  filter(Voltage < 11.5, Voltage > 10.75, state != "32,1,1.5,1.5,32,1,1.5,1.5")
 
 mj <- c(0.5, 1.5, 2.5)
 
